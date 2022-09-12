@@ -1,8 +1,8 @@
 import React from "react";
-import "./App.css";
+import Grid from "./Graph/Grid";
 
 function App() {
-  return <div>hello</div>;
+  return <Grid></Grid>;
 }
 
 export default App;
