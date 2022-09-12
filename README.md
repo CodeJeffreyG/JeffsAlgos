@@ -1,47 +1,35 @@
-# Getting Started with Create React App
+#Jeff's Graph Algorithms
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+About The Project
 
-In the project directory, you can run:
+I was inspired to create this project while researching
+data structures and algorithms I thought it would be a useful
+for the learning process, not only for me but others interested in the subject.
 
-### `npm start`
+The goal of this project is to be able to let the user select multiple algorithms. Such as breadth-first search or depth-first search. The user can also choose a start point and an end point of two nodes for the algorithm to traverse through.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Once the search begins, the user can see how the chosen algorithm gets from its starting to its ending destination. 
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
 
-### `npm test`
+#built with
+React-Native
+TypeScript
+Css
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+#install
 
-### `npm run build`
+git clone https://github.com/CodeJeffreyG/Jeffs-Graph-Algos
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+npm install
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+#contact
+JeffreyGrahamBusiness@gmail.com
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#my thought process
 
-### `npm run eject`
+1. The first step was creating a grid with nested loops—fifteen rows with 50 columns.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+2. I iterated through each node, and each node created a node component for a total of 750 Node components. Each one has a unique key of the index in which the node was created.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-"# JeffsAlgos" 
+3. I had to create some type of interface for a couple of reasons. Most importantly, mark if a Node was visited so the algorithm ran was not endlessly looping. Additionally, for logic to visually draw where the starting node is and where the ending node is. 
