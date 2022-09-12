@@ -13,14 +13,19 @@ export default function Grid() {
       row: 0,
       col: 0,
       isStart: false,
-      isFinish: false
+      isFinish: false,
     };
 
     for (let row = 0; row < 15; row += 1) {
       let currentRow: any = [];
       for (let col = 0; col < 50; col += 1) {
         currentRow.push(
-          (node = { row: row, col: col, isStart: false, isFinish: false })
+          (node = {
+            row: row,
+            col: col,
+            isStart: row === 0 && col === 0 ? true : false,
+            isFinish: row === 15 && col === 50 ? true : false,
+          })
         );
       }
       g.push(currentRow);
