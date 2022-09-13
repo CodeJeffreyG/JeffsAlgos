@@ -23,8 +23,8 @@ export default function Grid() {
           (node = {
             row: row,
             col: col,
-            isStart: row === 0 && col === 0 ? true : false,
-            isFinish: row === 15 && col === 50 ? true : false,
+            isStart: false,
+            isFinish: false,
           })
         );
       }
@@ -42,9 +42,10 @@ export default function Grid() {
         return (
           <div key={rowIndex}>
             {row.map((node: any, nodeIndex: any) => {
-              const { row, col, isStart, isFinish } = node;
+              let { row, col, isStart, isFinish } = node;
               return (
                 <Node
+                  n={node}
                   key={nodeIndex}
                   row={row}
                   col={col}
