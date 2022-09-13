@@ -6,8 +6,9 @@ export default function Grid() {
   const [grid, setGrid] = useState([]);
   const [startOrFinish, setStartOrFinish] = useState(true);
   const [startNode, setSNode] = useState([]);
+  const [endNode, setENode] = useState([]);
 
-  useEffect(() => makeGrid(), [startNode]);
+  useEffect(() => makeGrid(), [startNode, endNode]);
 
   const makeGrid = () => {
     let g: any = [];
@@ -23,12 +24,13 @@ export default function Grid() {
       let currentRow: any = [];
       for (let col = 0; col < 50; col += 1) {
         const [startR, startC] = startNode;
+        const [endR, endC] = endNode;
         currentRow.push(
           (node = {
             row: row,
             col: col,
             isStart: startR === row && startC === col ? true : false,
-            isFinish: false,
+            isFinish: endR === row && endC === col ? true : false,
             gridCord: `${row},${col}`,
           })
         );
@@ -41,7 +43,22 @@ export default function Grid() {
 
   const setStartNode = (e: any) => {
     const id = e.currentTarget.id;
-    let current = null;
+    let gridId = id.split(",").map((x: any) => Number(x));
+    let [r, c] = gridId;
+
+    for (let row of grid) {
+      for (let col of row) {
+        console.log(col);
+        if (col.col === c && col.row === r) {
+          col = { ...col, isFinish: true };
+          setENode(gridId);
+        }
+      }
+    }
+  };
+
+  const setFinishNode = (e: any) => {
+    const id = e.currentTarget.id;
     let gridId = id.split(",").map((x: any) => Number(x));
     let [r, c] = gridId;
 
@@ -77,7 +94,7 @@ export default function Grid() {
                     isStart={isStart}
                     isFinish={isFinish}
                     gridCord={gridCord}
-                    click={setStartNode}
+                    click={startOrFinish ? setFinishNode : setStartNode}
                   />
                 );
               })}
