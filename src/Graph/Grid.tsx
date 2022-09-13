@@ -1,3 +1,4 @@
+import { triggerAsyncId } from "async_hooks";
 import { useState, useEffect } from "react";
 
 import Node from "../Node/Node";
@@ -5,12 +6,13 @@ import "./Grid.css";
 
 export default function Grid() {
   const [grid, setGrid] = useState([]);
-  const [wallNode, setWNode] = useState<any>([]);
+  const [wallNode] = useState<any>([]);
   const [startNode, setSNode] = useState([]);
   const [endNode, setENode] = useState([]);
   const [nodeFunction, setNodeFunction] = useState("Start");
+  const [s, setS] = useState(true);
 
-  useEffect(() => makeGrid(), [startNode, endNode, wallNode]);
+  useEffect(() => makeGrid(), [startNode, endNode, wallNode, s]);
 
   const makeGrid = () => {
     let g: any = [];
@@ -28,14 +30,15 @@ export default function Grid() {
       for (let col = 0; col < 50; col += 1) {
         const [startR, startC] = startNode;
         const [endR, endC] = endNode;
+
         currentRow.push(
           (node = {
             row: row,
             col: col,
             isStart: startR === row && startC === col ? true : false,
             isFinish: endR === row && endC === col ? true : false,
-            isWall: false,
             gridCord: `${row},${col}`,
+            isWall: wallNode.includes(`${row},${col}`) ? true : false,
           })
         );
       }
@@ -53,7 +56,6 @@ export default function Grid() {
     for (let row of grid) {
       for (let col of row) {
         if (col.col === c && col.row === r && col.isFinish === false) {
-          col = { ...col, isStart: true };
           setSNode(gridId);
         }
       }
@@ -68,8 +70,6 @@ export default function Grid() {
     for (let row of grid) {
       for (let col of row) {
         if (col.col === c && col.row === r && col.isStart === false) {
-          col = { ...col, isFinish: true };
-
           setENode(gridId);
         }
       }
@@ -89,9 +89,8 @@ export default function Grid() {
           col.isFinish === false &&
           col.isStart === false
         ) {
-          col = { ...col, isWall: true };
-          wallNode.push(gridId);
-          console.log(wallNode, "I am a wall node");
+          wallNode.push(id);
+          Switch();
         }
       }
     }
@@ -101,6 +100,10 @@ export default function Grid() {
     if (e.target.value === "SetStartNode") setNodeFunction("Start");
     if (e.target.value === "SetEndNode") setNodeFunction("End");
     if (e.target.value === "SetWalls") setNodeFunction("Wall");
+  };
+
+  const Switch = () => {
+    return setS((s) => !s);
   };
 
   return (
