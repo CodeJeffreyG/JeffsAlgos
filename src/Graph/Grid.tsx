@@ -49,8 +49,8 @@ export default function Grid() {
     for (let row of grid) {
       for (let col of row) {
         console.log(col);
-        if (col.col === c && col.row === r) {
-          col = { ...col, isFinish: true };
+        if (col.col === c && col.row === r && col.isFinish === false) {
+          col = { ...col, isStart: true };
           setENode(gridId);
         }
       }
@@ -65,8 +65,8 @@ export default function Grid() {
     for (let row of grid) {
       for (let col of row) {
         console.log(col);
-        if (col.col === c && col.row === r) {
-          col = { ...col, isStart: true };
+        if (col.col === c && col.row === r && col.isStart === false) {
+          col = { ...col, isFinish: true };
           setSNode(gridId);
         }
       }
@@ -94,7 +94,7 @@ export default function Grid() {
                     isStart={isStart}
                     isFinish={isFinish}
                     gridCord={gridCord}
-                    click={startOrFinish ? setFinishNode : setStartNode}
+                    click={startOrFinish ? setStartNode : setFinishNode}
                   />
                 );
               })}
@@ -102,7 +102,7 @@ export default function Grid() {
           );
         })}
         <button onClick={SorF}>
-          {startOrFinish ? "StartNode" : "EndNode"}
+          {startOrFinish ? "EndNode" : "StartNode"}
         </button>
       </div>
     </>
