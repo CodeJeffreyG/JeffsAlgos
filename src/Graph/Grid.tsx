@@ -1,14 +1,19 @@
 import { useState, useEffect } from "react";
+
 import Node from "../Node/Node";
 import "./Grid.css";
 
 export default function Grid() {
   const [grid, setGrid] = useState([]);
-  const [startOrFinish, setStartOrFinish] = useState(true);
+  const [startOrFinish, setStartOrFinish] = useState(false);
+  const [wallNode, setWNode] = useState([]);
   const [startNode, setSNode] = useState([]);
   const [endNode, setENode] = useState([]);
+  const [nodeFunction, setNodeFunction] = useState<any>("Start");
 
-  useEffect(() => makeGrid(), [startNode, endNode]);
+  useEffect(() => {
+    makeGrid();
+  }, [startNode, endNode, wallNode]);
 
   const makeGrid = () => {
     let g: any = [];
@@ -17,6 +22,7 @@ export default function Grid() {
       col: 0,
       isStart: false,
       isFinish: false,
+      isWall: false,
       gridCord: "",
     };
 
@@ -25,12 +31,14 @@ export default function Grid() {
       for (let col = 0; col < 50; col += 1) {
         const [startR, startC] = startNode;
         const [endR, endC] = endNode;
+        console.log(wallNode, "is wall node");
         currentRow.push(
           (node = {
             row: row,
             col: col,
             isStart: startR === row && startC === col ? true : false,
             isFinish: endR === row && endC === col ? true : false,
+            isWall: false,
             gridCord: `${row},${col}`,
           })
         );
@@ -73,8 +81,32 @@ export default function Grid() {
     }
   };
 
-  const SorF = () => {
-    setStartOrFinish((currentStartOrFinish) => !currentStartOrFinish);
+  const setWallNode = (e: any) => {
+    const id = e.currentTarget.id;
+    let gridId = id.split(",").map((x: any) => Number(x));
+    let currentWalls: any = [];
+    let [r, c] = gridId;
+
+    for (let row of grid) {
+      for (let col of row) {
+        console.log(col);
+        if (
+          col.col === c &&
+          col.row === r &&
+          col.isFinish === false &&
+          col.isStart === false
+        ) {
+          col = { ...col, isWall: true };
+          currentWalls.push(id);
+          setWNode(currentWalls);
+        }
+      }
+    }
+  };
+
+  const setNode = (e: any) => {
+    if (e.target.value === "SetStartNode") setNodeFunction("Start");
+    if (e.target.value === "SetEndNode") setNodeFunction("End");
   };
 
   return (
@@ -84,7 +116,7 @@ export default function Grid() {
           return (
             <div key={rowIndex}>
               {row.map((node: any, nodeIndex: any) => {
-                let { row, col, isStart, isFinish, gridCord } = node;
+                let { row, col, isStart, isFinish, gridCord, isWall } = node;
                 return (
                   <Node
                     n={node}
@@ -93,17 +125,27 @@ export default function Grid() {
                     col={col}
                     isStart={isStart}
                     isFinish={isFinish}
+                    isWall={isWall}
                     gridCord={gridCord}
-                    click={startOrFinish ? setStartNode : setFinishNode}
+                    click={
+                      nodeFunction === "Start"
+                        ? setFinishNode
+                        : nodeFunction === "End"
+                        ? setStartNode
+                        : setStartNode
+                    }
                   />
                 );
               })}
             </div>
           );
         })}
-        <button onClick={SorF}>
-          {startOrFinish ? "EndNode" : "StartNode"}
-        </button>
+        <select name="nodes" id="setNodes" onChange={setNode}>
+          <option value="SetStartNode">Set Start Node</option>
+          <option value="SetEndNode">Set End Node</option>
+          <option value="SetWalls">Set Walls</option>
+          <option value="SetWeight">Set Weight</option>
+        </select>
       </div>
     </>
   );

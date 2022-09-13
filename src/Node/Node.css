@@ -23,3 +23,12 @@
   border: 1px solid black;
   margin: 1px;
 }
+
+.nodeWall {
+  background-color: black;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 1px solid black;
+  margin: 1px;
+}
